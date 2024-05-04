@@ -18,7 +18,7 @@ import AddTransaction from "./components/AddTransaction.vue";
 import { ref, computed } from "vue";
 
 const transactions = ref([
-  { id: 1, text: "flower", amount: 2 },
+  { id: 1, text: "flower", amount: 5 },
   { id: 2, text: "floweer", amount: 5 },
   { id: 3, text: "flowaer", amount: -5 },
 ]);
@@ -30,21 +30,25 @@ const total = computed(() => {
 
 //Get income
 const income = computed(() => {
-  return transactions.value
-    .filter(() => transaction.amount > 0)
-    .reduce((acc, transaction) => {
-      return acc + transaction.amount;
-    }, 0)
-    .toFixed(2);
+  return Number(
+    transactions.value
+      .filter((transaction) => transaction.amount > 0)
+      .reduce((acc, transaction) => {
+        return acc + transaction.amount;
+      }, 0)
+      .toFixed(2)
+  );
 });
 
 //Get expenses
 const expenses = computed(() => {
-  return transactions.value
-    .filter(() => transaction.amount < 0)
-    .reduce((acc, transaction) => {
-      return acc + transaction.amount;
-    }, 0)
-    .toFixed(2);
+  return Number(
+    transactions.value
+      .filter((transaction) => transaction.amount < 0)
+      .reduce((acc, transaction) => {
+        return acc + transaction.amount;
+      }, 0)
+      .toFixed(2)
+  );
 });
 </script>
