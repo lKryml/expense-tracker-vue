@@ -50,11 +50,11 @@ const expenses = computed(() => {
 
 //Add transaction
 function handleTransactionSubmission(transactionData) {
-  console.log(transactions.value.length);
   transactions.value.push({
-    id: transactions.value.length + 1,
+    id: transactions.value[transactions.value.length - 1].id + 1,
     text: transactionData.text,
     amount: transactionData.amount,
   });
+
 }
 </script>
