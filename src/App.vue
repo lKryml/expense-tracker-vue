@@ -18,14 +18,16 @@ import IncomeExpenses from "./components/IncomeExpenses.vue";
 import TransactionList from "./components/TransactionList.vue";
 import AddTransaction from "./components/AddTransaction.vue";
 
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 
-const transactions = ref([
-  { id: 1, text: "flower", amount: 5 },
-  { id: 2, text: "flowero", amount: 5 },
-  { id: 3, text: "flowera", amount: -5 },
-]);
+const transactions = ref([]);
 
+onMounted(() => {
+  const savedTransactions = JSON.parse(localStorage.getItem("transactions"));
+  if (savedTransactions) {
+    transactions.value = savedTransactions;
+  }
+});
 //Get total
 const total = computed(() => {
   return transactions.value.reduce((acc, item) => (acc += item.amount), 0);
@@ -53,11 +55,16 @@ const expenses = computed(() => {
 
 //Add transaction
 function handleTransactionSubmission(transactionData) {
+  const lastTransactionId =
+    transactions.value.length > 0
+      ? transactions.value[transactions.value.length - 1].id
+      : 0;
   transactions.value.push({
-    id: transactions.value[transactions.value.length - 1].id + 1,
+    id: lastTransactionId + 1,
     text: transactionData.text,
     amount: transactionData.amount,
   });
+  saveToLocalStorage();
 }
 
 //Delete transaction
@@ -65,5 +72,11 @@ function handleTransactionDeletion(id) {
   transactions.value = transactions.value.filter((tran) => {
     return tran.id !== id;
   });
+  saveToLocalStorage();
+}
+
+//Save to local storage
+function saveToLocalStorage() {
+  localStorage.setItem("transactions", JSON.stringify(transactions.value));
 }
 </script>
