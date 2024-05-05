@@ -35,14 +35,13 @@ function onSubmit() {
   if (!text.value || !amount.value) {
     toast.error("Both values must be filled!");
   } else {
-    toast.success("ezpz noob");
+    toast.success("Transaction added successfully!");
     const transactionData = {
       text: text.value,
       amount: +amount.value,
     };
     emit("transactionSubmitted", transactionData);
   }
-  console.log(text.value, amount.value);
 }
 
 const text = ref("");

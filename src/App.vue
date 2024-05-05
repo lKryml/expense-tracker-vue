@@ -3,7 +3,10 @@
   <div class="container">
     <Balance :total="total" />
     <IncomeExpenses :income="+income" :expenses="+expenses" />
-    <TransactionList :transactions="transactions" />
+    <TransactionList
+      :transactions="transactions"
+      @transactionDeleted="handleTransactionDeletion"
+    />
     <AddTransaction @transactionSubmitted="handleTransactionSubmission" />
   </div>
 </template>
@@ -19,8 +22,8 @@ import { ref, computed } from "vue";
 
 const transactions = ref([
   { id: 1, text: "flower", amount: 5 },
-  { id: 2, text: "floweer", amount: 5 },
-  { id: 3, text: "flowaer", amount: -5 },
+  { id: 2, text: "flowero", amount: 5 },
+  { id: 3, text: "flowera", amount: -5 },
 ]);
 
 //Get total
@@ -55,6 +58,12 @@ function handleTransactionSubmission(transactionData) {
     text: transactionData.text,
     amount: transactionData.amount,
   });
+}
 
+//Delete transaction
+function handleTransactionDeletion(id) {
+  transactions.value = transactions.value.filter((tran) => {
+    return tran.id !== id;
+  });
 }
 </script>
